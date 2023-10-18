@@ -1,15 +1,24 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.firefox.service import Service as FirefoxService
+from webdriver_manager.firefox import GeckoDriverManager
 
 def browser_init(context):
     """
     :param context: Behave context
     """
-    driver_path = ChromeDriverManager().install()
+    #driver_path = ChromeDriverManager().install()
+    driver_path = GeckoDriverManager().install()
     service = Service(driver_path)
-    context.driver = webdriver.Chrome(service=service)
+    #context.driver = webdriver.Chrome(service=service)
+    context.driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()))
+    context.driver = webdriver.Firefox(service=service)
+
+    #options = Options()
+    #options.add_argument('--headless=new')
+    #context.driver = webdriver.Chrome(options=options)
 
     context.driver.maximize_window()
 
