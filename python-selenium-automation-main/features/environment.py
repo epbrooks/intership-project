@@ -9,20 +9,23 @@ def browser_init(context):
     """
     :param context: Behave context
     """
-    #driver_path = ChromeDriverManager().install()
-    driver_path = GeckoDriverManager().install()
-    service = Service(driver_path)
-    #context.driver = webdriver.Chrome(service=service)
-    context.driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()))
-    context.driver = webdriver.Firefox(service=service)
 
-    #options = Options()
-    #options.add_argument('--headless=new')
-    #context.driver = webdriver.Chrome(options=options)
+    # Chrome Configuration
+    # driver_path = ChromeDriverManager().install()
+    # service = Service(driver_path)
+    # context.driver = webdriver.Chrome(service=service)
+    # context.driver.maximize_window()
 
-    context.driver.maximize_window()
+    # Firefox Configuration
+    # context.driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()))
+    # context.driver = webdriver.Firefox(service=service)
 
-    context.driver.maximize_window()
+    # Headless mode
+    options = Options()
+    options.add_argument('--headless')
+    options.add_argument("--window-size=1200,800")
+    context.driver = webdriver.Chrome(options=options)
+
     context.driver.implicitly_wait(4)
 
 
