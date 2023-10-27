@@ -5,12 +5,12 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.firefox import GeckoDriverManager
 
-def browser_init(context):
+def browser_init(context, test_name):
     """
     :param context: Behave context
     """
 
-    # Chrome Configuration
+    #Chrome Configuration
     # driver_path = ChromeDriverManager().install()
     # service = Service(driver_path)
     # context.driver = webdriver.Chrome(service=service)
@@ -21,17 +21,30 @@ def browser_init(context):
     # context.driver = webdriver.Firefox(service=service)
 
     # Headless mode
-    options = Options()
-    options.add_argument('--headless')
-    options.add_argument("--window-size=1200,800")
-    context.driver = webdriver.Chrome(options=options)
+    # options = Options()
+    #options.add_argument('--headless')
+    #options.add_argument("--window-size=1200,800")
+    #context.driver = webdriver.Chrome(options=options)
 
+   # Browserstack Configuration
+    desired_cap = {
+        'browserName': 'Chrome',
+        'os': 'Windows',
+        'osVersion': '10'
+    }
+    bs_user = 'erickbrooks1'
+    bs_key = 'Y1taqxnz3ozyjYqrpiiu'
+    browserstack_url = f'https://{bs_user}:{bs_key}@hub-cloud.browserstack.com/wd/hub'
+    # context.driver = webdriver.Remote(command_executor = browserstack_url, desired_capabilities = desired_cap)
+    options = Options()
+    options.set_capability('bstack:options', desired_cap)
+    context.driver = webdriver.Remote(command_executor=browserstack_url, options=options)
     context.driver.implicitly_wait(4)
 
 
 def before_scenario(context, scenario):
     print('\nStarted scenario: ', scenario.name)
-    browser_init(context)
+    browser_init(context, scenario.name)
 
 
 def before_step(context, step):
