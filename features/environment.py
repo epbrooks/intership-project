@@ -1,9 +1,13 @@
+
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.firefox import GeckoDriverManager
+import allure
+from allure_commons.types import AttachmentType
+
 
 def browser_init(context, test_name):
     """
@@ -11,10 +15,10 @@ def browser_init(context, test_name):
     """
 
     #Chrome Configuration
-    # driver_path = ChromeDriverManager().install()
-    # service = Service(driver_path)
-    # context.driver = webdriver.Chrome(service=service)
-    # context.driver.maximize_window()
+    driver_path = ChromeDriverManager().install()
+    service = Service(driver_path)
+    context.driver = webdriver.Chrome(service=service)
+    context.driver.maximize_window()
 
     # Firefox Configuration
     # context.driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()))
@@ -27,19 +31,22 @@ def browser_init(context, test_name):
     #context.driver = webdriver.Chrome(options=options)
 
    # Browserstack Configuration
-    desired_cap = {
-        'browserName': 'Chrome',
-        'os': 'Windows',
-        'osVersion': '10'
-    }
-    bs_user = 'erickbrooks1'
-    bs_key = 'Y1taqxnz3ozyjYqrpiiu'
-    browserstack_url = f'https://{bs_user}:{bs_key}@hub-cloud.browserstack.com/wd/hub'
-    # context.driver = webdriver.Remote(command_executor = browserstack_url, desired_capabilities = desired_cap)
-    options = Options()
-    options.set_capability('bstack:options', desired_cap)
-    context.driver = webdriver.Remote(command_executor=browserstack_url, options=options)
-    context.driver.implicitly_wait(4)
+   #  desired_cap = {
+   #      'browserName': 'Chrome',
+   #      'os': 'Windows',
+   #      'osVersion': '10'
+   #  }
+   #  bs_user = 'erickbrooks1'
+   #  bs_key = 'Y1taqxnz3ozyjYqrpiiu'
+   #  browserstack_url = f'https://{bs_user}:{bs_key}@hub-cloud.browserstack.com/wd/hub'
+   #  # context.driver = webdriver.Remote(command_executor = browserstack_url, desired_capabilities = desired_cap)
+   #  options = Options()
+   #  options.set_capability('bstack:options', desired_cap)
+   #  context.driver = webdriver.Remote(command_executor=browserstack_url, options=options)
+   #  context.driver.implicitly_wait(4)
+
+   #Allure Command:
+   #behave -f allure_behave.formatter:AllureFormatter -o test_results/ features/
 
 
 def before_scenario(context, scenario):
