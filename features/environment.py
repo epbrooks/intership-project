@@ -15,10 +15,10 @@ def browser_init(context, test_name):
     """
 
     #Chrome Configuration
-    driver_path = ChromeDriverManager().install()
-    service = Service(driver_path)
-    context.driver = webdriver.Chrome(service=service)
-    context.driver.maximize_window()
+    # driver_path = ChromeDriverManager().install()
+    # service = Service(driver_path)
+    # context.driver = webdriver.Chrome(service=service)
+    # context.driver.maximize_window()
 
     # Firefox Configuration
     # context.driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()))
@@ -47,6 +47,24 @@ def browser_init(context, test_name):
 
    #Allure Command:
    #behave -f allure_behave.formatter:AllureFormatter -o test_results/ features/
+
+   #Mobile Emulation:
+    mobile_emulation = {
+
+       "deviceName": "Nest Hub Max", }
+
+    chrome_options = webdriver.ChromeOptions()
+
+    chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
+
+    context.driver = webdriver.Chrome(
+
+     options=chrome_options
+
+    )
+
+    context.driver.maximize_window()
+    context.driver.implicitly_wait(4)
 
 
 def before_scenario(context, scenario):
